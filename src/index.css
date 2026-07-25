@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/*
+  SCIP 品牌色板
+  主色 #1677FF · 点缀 #FF7D29 · 文字 #1D2939 / #667085
+  底色 #F2F4F7 · 状态绿/红/紫 · 浅底 #E8F3FF / #FFF1E6
+*/
+:root {
+  --scip-blue: #1677ff;
+  --scip-blue-soft: #e8f3ff;
+  --scip-orange: #ff7d29;
+  --scip-orange-soft: #fff1e6;
+  --scip-ink: #1d2939;
+  --scip-muted: #667085;
+  --scip-bg: #f2f4f7;
+  --scip-surface: #ffffff;
+  --scip-border: #e4e7ec;
+  --scip-green: #00b42a;
+  --scip-red: #f53f3f;
+  --scip-purple: #845ec2;
+  --scip-sidebar: #ffffff;
+  --scip-sidebar-edge: #e4e7ec;
+  --scip-primary: #1677ff;
+  --scip-primary-deep: #0e5fd4;
+  --scip-primary-light: #4096ff;
+  --scip-accent: #ff7d29;
+  --scip-danger: #f53f3f;
+  --scip-warning: #ff7d29;
+  --scip-success: #00b42a;
+  --scip-logo-from: #1677ff;
+  --scip-logo-mid: #3b8cff;
+  --scip-logo-to: #ff7d29;
+  font-family: "Outfit", "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  color: var(--scip-ink);
+  background: var(--scip-bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--scip-bg);
+  color: var(--scip-ink);
+}
+
+/* SCIP 艺术字：活力蓝 → 能量橙 */
+.scip-logo-mark {
+  font-family: "Cormorant Garamond", "Songti SC", "Noto Serif SC", Georgia,
+    serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 0.32em;
+  line-height: 1;
+  margin-right: -0.32em;
+  background: linear-gradient(
+    115deg,
+    var(--scip-logo-from) 0%,
+    var(--scip-logo-mid) 52%,
+    var(--scip-logo-to) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(22, 119, 255, 0.12));
+}
+
+.scip-logo-sub {
+  font-family: "Outfit", "PingFang SC", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--scip-muted);
+}
+
+/* 通用柔和卡片（业务页可复用） */
+.scip-card {
+  border-radius: 14px;
+  border: 1px solid var(--scip-border);
+  background: var(--scip-surface);
+  box-shadow: 0 1px 2px rgba(29, 41, 57, 0.04);
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  z-index: 0;
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.28s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes anomaly-blink {
+  0%,
+  100% {
+    opacity: 1;
+    stroke-width: 2;
+  }
+  50% {
+    opacity: 0.35;
+    stroke-width: 4;
+  }
+}
+
+.anomaly-pulse {
+  animation: anomaly-blink 1.1s ease-in-out infinite;
+}
+
+.leaflet-interactive.anomaly-pulse {
+  animation: anomaly-blink 1.1s ease-in-out infinite;
+}

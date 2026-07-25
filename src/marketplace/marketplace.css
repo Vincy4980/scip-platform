@@ -1,0 +1,185 @@
+/* SCIP Marketplace — 橙白友好主题（与 SCIP 蓝白内部台差异化） */
+.mp-root {
+  --mp-orange: #ff7d29;
+  --mp-orange-deep: #e86a1a;
+  --mp-orange-soft: #fff1e6;
+  --mp-ink: #1d2939;
+  --mp-muted: #667085;
+  --mp-bg: #faf8f6;
+  --mp-surface: #ffffff;
+  --mp-border: #ebe4dc;
+  --mp-green: #00b42a;
+  --mp-font: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: var(--mp-font);
+  color: var(--mp-ink);
+  background: var(--mp-bg);
+  /* 短页面时页脚贴视口底部 */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mp-logo {
+  font-family: "Cormorant Garamond", "Songti SC", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, #ff7d29 0%, #ff9a4d 55%, #1677ff 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mp-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #ff7d29, #ff944d);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.55rem 1.15rem;
+  border: none;
+  box-shadow: 0 4px 14px rgba(255, 125, 41, 0.28);
+  transition: filter 0.15s, transform 0.15s;
+}
+
+.mp-btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.mp-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid var(--mp-border);
+  background: #fff;
+  color: var(--mp-ink);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.55rem 1rem;
+}
+
+.mp-btn-ghost:hover {
+  border-color: #ffc9a0;
+  background: var(--mp-orange-soft);
+}
+
+.mp-card {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(29, 41, 57, 0.04);
+}
+
+.mp-input {
+  width: 100%;
+  border-radius: 0.65rem;
+  border: 1px solid var(--mp-border);
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.mp-input:focus {
+  border-color: #ff7d29;
+  box-shadow: 0 0 0 3px rgba(255, 125, 41, 0.15);
+}
+
+.mp-chip {
+  border-radius: 999px;
+  border: 1px solid var(--mp-border);
+  background: #fff;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  color: var(--mp-muted);
+  transition: all 0.15s;
+}
+
+.mp-chip.active {
+  border-color: #ff7d29;
+  background: var(--mp-orange-soft);
+  color: var(--mp-orange-deep);
+  font-weight: 600;
+}
+
+.mp-banner {
+  background: linear-gradient(125deg, #fff7f0 0%, #ffe8d4 40%, #fff1e6 70%, #e8f3ff 100%);
+}
+
+@keyframes mp-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mp-fade-up {
+  animation: mp-fade-up 0.45s ease-out both;
+}
+
+/* 首页 Banner：亮色插画 + 醒目标题 */
+.mp-hero-banner {
+  min-height: 300px;
+  background: #fff7f0;
+}
+
+.mp-hero-veil {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 251, 247, 0.94) 0%,
+    rgba(255, 247, 240, 0.82) 38%,
+    rgba(255, 255, 255, 0.28) 68%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+.mp-hero-title {
+  color: #1d2939;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+  letter-spacing: -0.02em;
+}
+
+.mp-hero-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  translate: 0 -50%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid #ffe4cc;
+  background: rgba(255, 255, 255, 0.92);
+  color: #ff7d29;
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(255, 125, 41, 0.18);
+  transition: background 0.15s, scale 0.15s;
+}
+
+.mp-hero-nav:hover {
+  background: #fff1e6;
+  scale: 1.06;
+}
+
+@media (max-width: 640px) {
+  .mp-hero-nav {
+    height: 2.1rem;
+    width: 2.1rem;
+    font-size: 1.25rem;
+  }
+}
