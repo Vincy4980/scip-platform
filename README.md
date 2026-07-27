@@ -2,7 +2,7 @@
 
 化工供应链智能控制塔 + 下游客户采购门户（SCIP Marketplace）的可演示产品原型。
 
-> 面试 / HR 阅读推荐先看 GitHub 主页项目介绍：  
+> 项目介绍：  
 > [Vincy4980/projects/scip-platform.md](https://github.com/Vincy4980/Vincy4980/blob/main/projects/scip-platform.md)
 
 ## 快速开始
