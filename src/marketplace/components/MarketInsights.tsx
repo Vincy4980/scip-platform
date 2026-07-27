@@ -39,6 +39,13 @@ function NewsDetailModal({
           </button>
         </div>
         <p className="mt-4 text-sm leading-relaxed text-[var(--mp-muted)]">{news.body}</p>
+        {news.imageUrl && (
+          <img
+            src={news.imageUrl}
+            alt=""
+            className="mt-4 h-40 w-full rounded-xl object-cover"
+          />
+        )}
         <Link
           to={`/marketplace/market-news/${news.id}`}
           className="mt-4 inline-block text-sm font-medium text-[var(--mp-orange)]"
@@ -96,12 +103,14 @@ export default function MarketInsights() {
             onClick={() => setActive(lead)}
             className="group flex min-h-[140px] flex-col gap-3 border-b border-[var(--mp-border)] p-4 text-left transition hover:bg-[#FFFBF7] sm:flex-row"
           >
-            <div
-              className="h-28 w-full shrink-0 overflow-hidden rounded-xl sm:h-auto sm:w-40"
-              style={{
-                background: `linear-gradient(145deg, hsl(${lead.imageHue} 50% 88%), hsl(${(lead.imageHue + 30) % 360} 40% 72%)), linear-gradient(160deg,#1D2939aa,#FF7D2944)`,
-              }}
-            />
+            <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl sm:h-auto sm:min-h-[120px] sm:w-40">
+              <img
+                src={lead.imageUrl}
+                alt=""
+                className="h-full w-full object-cover transition group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1D2939]/35 to-transparent" />
+            </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap gap-1.5">
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${TAG_STYLE[lead.tag]}`}>
@@ -127,19 +136,27 @@ export default function MarketInsights() {
                 <button
                   type="button"
                   onClick={() => setActive(n)}
-                  className="flex min-h-[120px] w-full flex-col justify-center gap-1.5 px-4 py-3 text-left hover:bg-[#FFFBF7]"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-[#FFFBF7]"
                 >
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${TAG_STYLE[n.tag]}`}>
-                      {n.tag}
-                    </span>
-                    <span className="text-[10px] text-[var(--mp-muted)]">{n.category}</span>
-                    <span className="text-[10px] text-[var(--mp-muted)]">· {n.publishedAt}</span>
+                  <img
+                    src={n.imageUrl}
+                    alt=""
+                    className="h-14 w-14 shrink-0 rounded-lg object-cover"
+                    loading="lazy"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${TAG_STYLE[n.tag]}`}>
+                        {n.tag}
+                      </span>
+                      <span className="text-[10px] text-[var(--mp-muted)]">{n.category}</span>
+                      <span className="text-[10px] text-[var(--mp-muted)]">· {n.publishedAt}</span>
+                    </div>
+                    <div className="mt-1 line-clamp-1 text-sm font-semibold text-[var(--mp-ink)]">
+                      {n.title}
+                    </div>
+                    <p className="line-clamp-1 text-xs text-[var(--mp-muted)]">{n.summary}</p>
                   </div>
-                  <div className="line-clamp-1 text-sm font-semibold text-[var(--mp-ink)]">
-                    {n.title}
-                  </div>
-                  <p className="line-clamp-2 text-xs text-[var(--mp-muted)]">{n.summary}</p>
                 </button>
               </li>
             ))}

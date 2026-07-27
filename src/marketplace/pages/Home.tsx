@@ -1,47 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CategoryGrid, ProductCard } from '../components/ProductCard';
 import { MpSection } from '../components/MarketplaceLayout';
 import MarketInsights from '../components/MarketInsights';
 import { useMarketplaceStore } from '../store/useMarketplaceStore';
-
-const BANNERS = [
-  {
-    title: '在线采购，一步到位',
-    desc: '从选品到交付，全链路数字化采购体验',
-    cta: '开始采购',
-    to: '/marketplace/products',
-    image: '/marketplace/mp-banner-1.png',
-    accent: '#FF7D29',
-  },
-  {
-    title: '透明供应，实时可查',
-    desc: '实时库存、在线询价、订单追踪，全程可视化',
-    cta: '查看产品',
-    to: '/marketplace/products',
-    image: '/marketplace/mp-banner-2.png',
-    accent: '#1677FF',
-  },
-  {
-    title: '100+ 企业信赖的选择',
-    desc: '为制造企业提供高效、可靠的供应链采购服务',
-    cta: '立即注册',
-    to: '/marketplace/auth/register',
-    image: '/marketplace/mp-banner-3.png',
-    accent: '#E86A1A',
-  },
-];
+import { marketplaceBanners } from '../../mock/marketplaceBanners';
 
 export default function MarketplaceHome() {
   const products = useMarketplaceStore((s) => s.products);
+  const banners = useMemo(() => marketplaceBanners, []);
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
   const pausedRef = useRef(false);
   pausedRef.current = paused;
 
-  const go = useCallback((dir: 1 | -1) => {
-    setSlide((s) => (s + dir + BANNERS.length) % BANNERS.length);
-  }, []);
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      setSlide((s) => (s + dir + banners.length) % banners.length);
+    },
+    [banners.length],
+  );
 
   const next = useCallback(() => go(1), [go]);
   const prev = useCallback(() => go(-1), [go]);
@@ -49,55 +27,108 @@ export default function MarketplaceHome() {
   useEffect(() => {
     const t = window.setInterval(() => {
       if (!pausedRef.current) next();
-    }, 4000);
+    }, 5000);
     return () => window.clearInterval(t);
   }, [next]);
 
   const hot = products.slice(0, 6);
-  const b = BANNERS[slide]!;
+  const b = banners[slide]!;
 
   return (
     <div className="space-y-10">
-      {/* Banner：亮色插画 + 醒目文案 + 自动轮播 / 左右翻页 */}
+      {/* Banner：固定比例；新闻 / 活动 / 成果 */}
       <section
-        className="mp-hero-banner mp-fade-up relative overflow-hidden rounded-2xl border border-[var(--mp-border)]"
+        className="mp-hero-banner mp-fade-up overflow-hidden rounded-2xl border border-[var(--mp-border)]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        {BANNERS.map((item, i) => (
-          <div
-            key={item.image}
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
-            style={{
-              backgroundImage: `url(${item.image})`,
-              opacity: i === slide ? 1 : 0,
-            }}
+        {banners.map((item, i) => (
+          <img
+            key={item.id}
+            src={item.image}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
+            style={{ opacity: i === slide ? 1 : 0 }}
             aria-hidden={i !== slide}
           />
         ))}
 
-        {/* 浅色蒙层：文字醒目，不用黑底 */}
         <div className="mp-hero-veil absolute inset-0" />
 
-        <div className="relative z-10 flex min-h-[300px] flex-col justify-center px-14 py-12 md:min-h-[340px] md:px-16 md:py-14">
-          <span
-            className="inline-flex w-fit items-center rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-sm"
-            style={{ background: b.accent }}
-          >
-            SCIP MARKETPLACE
-          </span>
-          <h1 className="mp-hero-title mt-4 max-w-xl text-3xl font-extrabold leading-tight md:text-[2.55rem]">
+        <div className="absolute inset-0 z-10 flex flex-col justify-center px-12 py-8 md:px-16 md:py-10">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className="inline-flex w-fit items-center rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-sm"
+              style={{ background: b.accent }}
+            >
+              {b.badge}
+            </span>
+            {b.meta && (
+              <span className="rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-medium text-[#3D4A5C] shadow-sm backdrop-blur-sm">
+                {b.meta}
+              </span>
+            )}
+          </div>
+          <h1 className="mp-hero-title mt-3 max-w-2xl text-xl font-extrabold leading-snug line-clamp-2 md:mt-4 md:text-[2.1rem] md:leading-tight">
             {b.title}
           </h1>
-          <p className="mt-3 max-w-md text-sm font-medium leading-relaxed text-[#3D4A5C] md:text-base">
+          <p className="mt-2 max-w-xl text-sm font-medium leading-relaxed text-[#3D4A5C] line-clamp-2 md:mt-3 md:text-base">
             {b.desc}
           </p>
-          <Link
-            to={b.to}
-            className="mp-btn-primary mt-7 inline-flex w-fit text-base !px-5 !py-2.5"
-          >
-            {b.cta}
-          </Link>
+          <div className="mt-5 flex flex-wrap items-center gap-3 md:mt-6">
+            <Link
+              to={b.to}
+              className="mp-btn-primary inline-flex w-fit text-sm !px-4 !py-2 md:text-base md:!px-5 md:!py-2.5"
+            >
+              {b.cta}
+            </Link>
+            <Link
+              to={
+                b.kind === 'news'
+                  ? '/marketplace/market-news'
+                  : b.kind === 'event'
+                    ? '/marketplace/market-news#events'
+                    : '/marketplace/products'
+              }
+              className="mp-btn-ghost inline-flex !bg-white/90 !text-xs backdrop-blur-sm md:!text-sm"
+            >
+              {b.kind === 'news'
+                ? '更多资讯'
+                : b.kind === 'event'
+                  ? '全部活动'
+                  : '去选品'}
+            </Link>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-1.5 md:mt-5">
+            {(
+              [
+                { kind: 'news', label: '热点' },
+                { kind: 'event', label: '活动' },
+                { kind: 'achievement', label: '成果' },
+              ] as const
+            ).map((t) => {
+              const active = b.kind === t.kind;
+              const count = banners.filter((x) => x.kind === t.kind).length;
+              return (
+                <button
+                  key={t.kind}
+                  type="button"
+                  onClick={() => {
+                    const idx = banners.findIndex((x) => x.kind === t.kind);
+                    if (idx >= 0) setSlide(idx);
+                  }}
+                  className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition ${
+                    active
+                      ? 'bg-[var(--mp-orange)] text-white'
+                      : 'bg-white/80 text-[var(--mp-muted)] hover:bg-[var(--mp-orange-soft)]'
+                  }`}
+                >
+                  {t.label} · {count}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <button
@@ -117,12 +148,12 @@ export default function MarketplaceHome() {
           ›
         </button>
 
-        <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-          {BANNERS.map((_, i) => (
+        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2 md:bottom-5">
+          {banners.map((item, i) => (
             <button
-              key={i}
+              key={item.id}
               type="button"
-              aria-label={`第 ${i + 1} 张`}
+              aria-label={`${item.badge}：${item.title}`}
               aria-current={i === slide}
               onClick={() => setSlide(i)}
               className={`h-2.5 rounded-full transition-all ${

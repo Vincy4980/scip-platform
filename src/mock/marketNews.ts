@@ -20,6 +20,8 @@ export interface MarketNewsItem {
   /** 详情正文（演示） */
   body: string;
   imageHue: number;
+  /** 封面图（本地 Unsplash 授权素材） */
+  imageUrl: string;
   featured?: boolean;
 }
 
@@ -41,6 +43,7 @@ export interface IndustryEvent {
   location: string;
   status: EventStatus;
   description: string;
+  imageUrl: string;
 }
 
 export const headlineNews: MarketNewsItem[] = [
@@ -54,6 +57,7 @@ export const headlineNews: MarketNewsItem[] = [
     tag: '热门',
     featured: true,
     imageHue: 28,
+    imageUrl: '/marketplace/news/news-001.jpg',
     body: '天赐材料在7月3日晚间公告，终止南通年产24.3万吨锂电及含氟新材料项目的建设。公司表示将根据市场需求与产能利用率动态优化资本开支节奏，短期内聚焦存量产线效率与海外客户交付。对下游电解液及相关含氟中间体采购方而言，短期供应格局或趋稳，建议关注替代供方与长约条款调整窗口。',
   },
   {
@@ -65,6 +69,7 @@ export const headlineNews: MarketNewsItem[] = [
     publishedAt: '2026-07-09',
     tag: '热点',
     imageHue: 210,
+    imageUrl: '/marketplace/news/news-002.jpg',
     body: '2026年7月9日，AstraZeneca 与 Ionis 公布 Wainua 用于 ATTR-CM 的全球 III 期 CARDIO-TTRansform 试验未达主要疗效终点，资本市场反应剧烈。虽与化工成品采购无直接关联，但医药中间体与特种溶剂需求预期可能阶段性承压，建议关注相关合同量与库存策略。',
   },
   {
@@ -75,6 +80,7 @@ export const headlineNews: MarketNewsItem[] = [
     publishedAt: '2026-07-05',
     tag: '趋势',
     imageHue: 145,
+    imageUrl: '/marketplace/news/news-003.jpg',
     body: '健康消费升级推动功能食品原料需求上升。本盘点覆盖益生元、植物蛋白、微量营养素复配与风味载体等十大潜力原料方向，并对采购周期、认证要求与供应链风险给出建议，帮助制造企业与贸易商优化备货结构。',
   },
   {
@@ -86,6 +92,7 @@ export const headlineNews: MarketNewsItem[] = [
     publishedAt: '2026-07-01',
     tag: '政策',
     imageHue: 265,
+    imageUrl: '/marketplace/news/news-004.jpg',
     body: 'ECHA 于 2026 年 7 月 1 日将 5 种新物质列入 SVHC 候选清单。出口欧盟的成品与中间体需更新 SDS、评估授权义务，并与下游客户同步合规声明。建议采购与关务团队联合复核现有 BOM 与供应商声明。',
   },
   {
@@ -97,6 +104,7 @@ export const headlineNews: MarketNewsItem[] = [
     publishedAt: '2026-06-28',
     tag: '市场',
     imageHue: 35,
+    imageUrl: '/marketplace/news/news-005.jpg',
     body: '2026 年 Q2 全球聚氨酯需求同比增长 6.8%，建筑保温、汽车内饰与家具软泡拉动明显。MDI/TDI 及多元醇价格波动仍存，建议结合 SCIP Marketplace 库存灯色与询价节奏做滚动备货。',
   },
 ];
@@ -142,6 +150,7 @@ export const industryEvents: IndustryEvent[] = [
     status: '预登记开启',
     description:
       '覆盖饮料制造技术、包装与相关化工原料供应链对接，适合食品与营养、精细化工采购团队。',
+    imageUrl: '/marketplace/banners/banner-event-1.jpg',
   },
   {
     id: 'EVT-002',
@@ -151,6 +160,7 @@ export const industryEvents: IndustryEvent[] = [
     status: '报名中',
     description:
       '聚焦精细化工产业链协同、绿色工艺与供应链韧性，设置供需对接专场。',
+    imageUrl: '/marketplace/banners/banner-event-2.jpg',
   },
   {
     id: 'EVT-003',
@@ -160,6 +170,7 @@ export const industryEvents: IndustryEvent[] = [
     status: '即将开启',
     description:
       '电解液、隔膜、正极材料与含氟新材料技术交流，配套采购洽谈区。',
+    imageUrl: '/marketplace/banners/banner-news-1.jpg',
   },
   {
     id: 'EVT-004',
@@ -169,6 +180,7 @@ export const industryEvents: IndustryEvent[] = [
     status: '即将开启',
     description:
       '功能食品原料、添加剂合规与营养健康趋势研讨，助力精准营养采购决策。',
+    imageUrl: '/marketplace/news/news-003.jpg',
   },
 ];
 

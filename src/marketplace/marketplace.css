@@ -128,10 +128,25 @@
   animation: mp-fade-up 0.45s ease-out both;
 }
 
-/* 首页 Banner：亮色插画 + 醒目标题 */
+/* 首页 Banner：固定宽高比，不随图片/文案长短抖动 */
 .mp-hero-banner {
-  min-height: 300px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  height: auto;
   background: #fff7f0;
+}
+
+@media (max-width: 768px) {
+  .mp-hero-banner {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 640px) {
+  .mp-hero-banner {
+    aspect-ratio: 5 / 4;
+  }
 }
 
 .mp-hero-veil {

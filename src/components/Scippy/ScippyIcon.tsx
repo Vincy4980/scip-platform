@@ -8,95 +8,86 @@ interface ScippyIconProps {
 }
 
 type Face = {
-  eyeL: { cx: number; cy: number; r: number };
-  eyeR: { cx: number; cy: number; r: number };
-  browL?: string;
-  browR?: string;
+  eyeL: { x: number; y: number; w: number; h: number; rx: number };
+  eyeR: { x: number; y: number; w: number; h: number; rx: number };
   mouth: string;
   mouthFill?: string;
+  antennaPulse: boolean;
   cheek: boolean;
-  spark: boolean;
-  heart?: boolean;
   wink?: 'right' | 'left';
-  eyeShine?: boolean;
+  brow?: boolean;
 };
 
-const INK = '#2B5F8A';
-const CHEEK = '#FFBDAA';
+const INK = '#1A5FA8';
+const LED = '#E8F6FF';
+const CHEEK = '#9FD0FF';
 
-/** 浅蓝 Scippy：表情丰富，仅开心系 + 紧急告警，无消极脸 */
+/** 浅蓝小机器人头：与 SCIP 控制塔蓝白风格一致 */
 function faceFor(mood: ScippyMood): Face {
   const display = normalizeScippyMood(mood);
 
   if (display === 'warning') {
     return {
-      eyeL: { cx: 14, cy: 14.5, r: 2 },
-      eyeR: { cx: 22, cy: 14.5, r: 2 },
-      browL: 'M11 11.5 L16.5 12.8',
-      browR: 'M19.5 12.8 L25 11.5',
-      mouth: 'M14.5 22.5 L21.5 22.5',
+      eyeL: { x: 12.2, y: 17.2, w: 5.2, h: 5.2, rx: 1.4 },
+      eyeR: { x: 22.6, y: 17.2, w: 5.2, h: 5.2, rx: 1.4 },
+      mouth: 'M15.5 27.2 H24.5',
+      antennaPulse: true,
       cheek: false,
-      spark: true,
-      eyeShine: true,
+      brow: true,
     };
   }
 
   switch (mood) {
     case 'excited':
       return {
-        eyeL: { cx: 13.5, cy: 14.5, r: 2.2 },
-        eyeR: { cx: 22.5, cy: 14.5, r: 2.2 },
-        mouth: 'M12 19.5 Q18 26 24 19.5',
-        mouthFill: '#FFE8DC',
+        eyeL: { x: 12, y: 16.8, w: 5.6, h: 5.8, rx: 1.6 },
+        eyeR: { x: 22.4, y: 16.8, w: 5.6, h: 5.8, rx: 1.6 },
+        mouth: 'M14 26.2 Q20 31.2 26 26.2',
+        mouthFill: LED,
+        antennaPulse: true,
         cheek: true,
-        spark: true,
-        heart: true,
-        eyeShine: true,
       };
     case 'success':
       return {
-        eyeL: { cx: 14, cy: 14.8, r: 1.9 },
-        eyeR: { cx: 22, cy: 14.8, r: 1.9 },
-        mouth: 'M12.5 20 Q18 24.5 23.5 20',
+        eyeL: { x: 12.4, y: 17.4, w: 5, h: 4.8, rx: 1.4 },
+        eyeR: { x: 22.6, y: 17.4, w: 5, h: 4.8, rx: 1.4 },
+        mouth: 'M14.5 26.5 Q20 30 25.5 26.5',
+        antennaPulse: true,
         cheek: true,
-        spark: true,
-        eyeShine: true,
       };
     case 'thinking':
     case 'listening':
       return {
-        eyeL: { cx: 14, cy: 15, r: 1.9 },
-        eyeR: { cx: 22, cy: 15, r: 1.9 },
-        mouth: 'M14 21 Q18 23.5 22 21',
+        eyeL: { x: 12.5, y: 17.6, w: 5, h: 4.6, rx: 1.3 },
+        eyeR: { x: 22.5, y: 17.6, w: 5, h: 4.6, rx: 1.3 },
+        mouth: 'M15.5 27 Q20 28.8 24.5 27',
+        antennaPulse: false,
         cheek: true,
-        spark: false,
         wink: 'right',
-        eyeShine: true,
       };
     case 'idle':
       return {
-        eyeL: { cx: 14, cy: 15.2, r: 1.7 },
-        eyeR: { cx: 22, cy: 15.2, r: 1.7 },
-        mouth: 'M14.5 20.5 Q18 22.5 21.5 20.5',
+        eyeL: { x: 12.6, y: 18, w: 4.8, h: 4.2, rx: 1.2 },
+        eyeR: { x: 22.6, y: 18, w: 4.8, h: 4.2, rx: 1.2 },
+        mouth: 'M16 27 H24',
+        antennaPulse: false,
         cheek: false,
-        spark: false,
-        eyeShine: true,
       };
     default:
       return {
-        eyeL: { cx: 14, cy: 15, r: 1.9 },
-        eyeR: { cx: 22, cy: 15, r: 1.9 },
-        mouth: 'M13 20 Q18 25 23 20',
+        eyeL: { x: 12.4, y: 17.4, w: 5, h: 5, rx: 1.4 },
+        eyeR: { x: 22.6, y: 17.4, w: 5, h: 5, rx: 1.4 },
+        mouth: 'M14.5 26.5 Q20 30.2 25.5 26.5',
+        antennaPulse: mood === 'happy',
         cheek: true,
-        spark: mood === 'happy',
-        eyeShine: true,
       };
   }
 }
 
 function ScippyIcon({ mood, size = 36, className = '' }: ScippyIconProps) {
   const f = faceFor(mood);
-  const id = `scippy-${mood}-${size}`;
+  const id = `scippy-bot-${mood}-${size}`;
+  const isWarn = normalizeScippyMood(mood) === 'warning';
 
   return (
     <svg
@@ -108,112 +99,221 @@ function ScippyIcon({ mood, size = 36, className = '' }: ScippyIconProps) {
       aria-label={`Scippy ${mood}`}
     >
       <defs>
-        <linearGradient id={`${id}-bg`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#DDF0FF" />
-          <stop offset="45%" stopColor="#A8DCFF" />
-          <stop offset="100%" stopColor="#7EC4FF" />
+        <linearGradient id={`${id}-head`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#F0F9FF" />
+          <stop offset="40%" stopColor="#B8E4FF" />
+          <stop offset="100%" stopColor="#6BB8F5" />
+        </linearGradient>
+        <linearGradient id={`${id}-panel`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#EAF6FF" />
+          <stop offset="100%" stopColor="#C8E8FF" />
         </linearGradient>
         <linearGradient id={`${id}-shine`} x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
-        <radialGradient id={`${id}-blush`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-        </radialGradient>
+        <linearGradient id={`${id}-ear`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#9FD4FF" />
+          <stop offset="100%" stopColor="#5AA8E8" />
+        </linearGradient>
       </defs>
 
-      <path
-        d="M8 6.5h20c3.6 0 6.5 2.9 6.5 6.5v10c0 3.6-2.9 6.5-6.5 6.5H16l-5.5 4.2c-.7.5-1.7 0-1.7-.9V29.5C7.2 26 5.5 23.2 5.5 20V13c0-3.6 2.9-6.5 6.5-6.5z"
-        fill={`url(#${id}-bg)`}
-        stroke="#B8E4FF"
-        strokeWidth="0.6"
+      {/* 天线 */}
+      <line
+        x1="20"
+        y1="8.5"
+        x2="20"
+        y2="3.2"
+        stroke="#5AA8E8"
+        strokeWidth="1.6"
+        strokeLinecap="round"
       />
+      <circle
+        cx="20"
+        cy="2.6"
+        r="2.2"
+        fill={isWarn ? '#FAAD14' : f.antennaPulse ? '#1677FF' : '#8ECFFF'}
+        stroke="#ffffff"
+        strokeWidth="0.8"
+      />
+      {f.antennaPulse && !isWarn && (
+        <circle cx="20" cy="2.6" r="1" fill="#E8F4FF" opacity="0.9" />
+      )}
+
+      {/* 左侧耳 / 铰链 */}
+      <rect
+        x="3.2"
+        y="16.5"
+        width="3.4"
+        height="8"
+        rx="1.2"
+        fill={`url(#${id}-ear)`}
+        stroke="#7EC4FF"
+        strokeWidth="0.5"
+      />
+      <circle cx="4.9" cy="20.5" r="1" fill="#EAF6FF" />
+
+      {/* 右侧耳 / 铰链 */}
+      <rect
+        x="33.4"
+        y="16.5"
+        width="3.4"
+        height="8"
+        rx="1.2"
+        fill={`url(#${id}-ear)`}
+        stroke="#7EC4FF"
+        strokeWidth="0.5"
+      />
+      <circle cx="35.1" cy="20.5" r="1" fill="#EAF6FF" />
+
+      {/* 主机头壳 */}
+      <rect
+        x="6.5"
+        y="8"
+        width="27"
+        height="26"
+        rx="7.5"
+        fill={`url(#${id}-head)`}
+        stroke="#9FD4FF"
+        strokeWidth="0.7"
+      />
+      {/* 顶部高光 */}
       <path
-        d="M10 8h16c2.8 0 5 2 5.4 4.6C28 11 24.5 9.5 20 9.5c-5.5 0-10 2.2-12 5.4C8.3 11.5 10 8 10 8z"
+        d="M10 10.5h20c2.2 0 4 1.5 4.4 3.5C31.5 12 27 10.8 20 10.8c-7.2 0-12.5 1.8-14.2 4.8C6.5 13 8.5 10.5 10 10.5z"
         fill={`url(#${id}-shine)`}
       />
-      <ellipse cx="20" cy="22" rx="11" ry="9" fill={`url(#${id}-blush)`} />
+
+      {/* 面罩 / 屏幕区 */}
+      <rect
+        x="10"
+        y="14.5"
+        width="20"
+        height="16"
+        rx="4.5"
+        fill={`url(#${id}-panel)`}
+        stroke="#A8DCFF"
+        strokeWidth="0.6"
+      />
+
+      {/* 额头状态灯 */}
+      <circle
+        cx="20"
+        cy="12.2"
+        r="1.15"
+        fill={isWarn ? '#FAAD14' : '#1677FF'}
+        opacity="0.95"
+      />
+      <circle cx="20" cy="12.2" r="0.45" fill="#ffffff" opacity="0.85" />
 
       {f.cheek && (
         <>
-          <ellipse cx="11.5" cy="19.5" rx="2.4" ry="1.4" fill={CHEEK} opacity="0.65" />
-          <ellipse cx="24.5" cy="19.5" rx="2.4" ry="1.4" fill={CHEEK} opacity="0.65" />
+          <ellipse cx="12.2" cy="25.2" rx="1.8" ry="1.1" fill={CHEEK} opacity="0.55" />
+          <ellipse cx="27.8" cy="25.2" rx="1.8" ry="1.1" fill={CHEEK} opacity="0.55" />
         </>
       )}
 
-      {f.browL && (
-        <path d={f.browL} fill="none" stroke={INK} strokeWidth="1.3" strokeLinecap="round" />
-      )}
-      {f.browR && (
-        <path d={f.browR} fill="none" stroke={INK} strokeWidth="1.3" strokeLinecap="round" />
+      {f.brow && (
+        <>
+          <path
+            d="M12.5 16.2 L16.8 17.4"
+            fill="none"
+            stroke={INK}
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M23.2 17.4 L27.5 16.2"
+            fill="none"
+            stroke={INK}
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+        </>
       )}
 
+      {/* 眼睛（LED 块） */}
       {f.wink === 'right' ? (
         <>
-          <circle cx={f.eyeL.cx} cy={f.eyeL.cy} r={f.eyeL.r} fill={INK} />
-          {f.eyeShine && (
-            <circle cx={f.eyeL.cx - 0.5} cy={f.eyeL.cy - 0.5} r="0.55" fill="#fff" />
-          )}
+          <rect
+            x={f.eyeL.x}
+            y={f.eyeL.y}
+            width={f.eyeL.w}
+            height={f.eyeL.h}
+            rx={f.eyeL.rx}
+            fill={INK}
+          />
+          <circle
+            cx={f.eyeL.x + f.eyeL.w * 0.35}
+            cy={f.eyeL.y + f.eyeL.h * 0.35}
+            r="0.7"
+            fill="#fff"
+          />
           <path
-            d="M19.5 15 Q22 13.2 24.5 15"
+            d="M22.8 19.8 Q25.2 17.8 27.6 19.8"
             fill="none"
             stroke={INK}
-            strokeWidth="1.7"
+            strokeWidth="1.6"
             strokeLinecap="round"
           />
         </>
-      ) : f.wink === 'left' ? (
+      ) : (
         <>
-          <path
-            d="M11.5 15 Q14 13.2 16.5 15"
-            fill="none"
-            stroke={INK}
-            strokeWidth="1.7"
-            strokeLinecap="round"
+          <rect
+            x={f.eyeL.x}
+            y={f.eyeL.y}
+            width={f.eyeL.w}
+            height={f.eyeL.h}
+            rx={f.eyeL.rx}
+            fill={isWarn ? '#D48806' : INK}
           />
-          <circle cx={f.eyeR.cx} cy={f.eyeR.cy} r={f.eyeR.r} fill={INK} />
-          {f.eyeShine && (
-            <circle cx={f.eyeR.cx - 0.5} cy={f.eyeR.cy - 0.5} r="0.55" fill="#fff" />
-          )}
-        </>
-      ) : (
-        <>
-          <circle cx={f.eyeL.cx} cy={f.eyeL.cy} r={f.eyeL.r} fill={INK} />
-          <circle cx={f.eyeR.cx} cy={f.eyeR.cy} r={f.eyeR.r} fill={INK} />
-          {f.eyeShine && (
-            <>
-              <circle cx={f.eyeL.cx - 0.5} cy={f.eyeL.cy - 0.5} r="0.55" fill="#fff" />
-              <circle cx={f.eyeR.cx - 0.5} cy={f.eyeR.cy - 0.5} r="0.55" fill="#fff" />
-            </>
-          )}
-        </>
-      )}
-
-      {f.mouthFill ? (
-        <path d={f.mouth} fill={f.mouthFill} stroke={INK} strokeWidth="1.2" strokeLinejoin="round" />
-      ) : (
-        <path d={f.mouth} fill="none" stroke={INK} strokeWidth="1.5" strokeLinecap="round" />
-      )}
-
-      {f.spark && (
-        <>
-          <path
-            d="M29.5 8.5 L30.5 10.5 L32.5 11 L30.5 11.5 L29.5 13.5 L28.5 11.5 L26.5 11 L28.5 10.5 Z"
-            fill="#FFFFFF"
+          <rect
+            x={f.eyeR.x}
+            y={f.eyeR.y}
+            width={f.eyeR.w}
+            height={f.eyeR.h}
+            rx={f.eyeR.rx}
+            fill={isWarn ? '#D48806' : INK}
+          />
+          <circle
+            cx={f.eyeL.x + f.eyeL.w * 0.35}
+            cy={f.eyeL.y + f.eyeL.h * 0.35}
+            r="0.7"
+            fill="#fff"
             opacity="0.95"
           />
-          <circle cx="8.5" cy="10.5" r="1.1" fill="#FFFFFF" opacity="0.9" />
+          <circle
+            cx={f.eyeR.x + f.eyeR.w * 0.35}
+            cy={f.eyeR.y + f.eyeR.h * 0.35}
+            r="0.7"
+            fill="#fff"
+            opacity="0.95"
+          />
         </>
       )}
 
-      {f.heart && (
+      {/* 嘴巴 */}
+      {f.mouthFill ? (
         <path
-          d="M33 17 C33 15 31 14 30 15.5 C29 14 27 15 27 17 C27 19 30 21 30 21 C30 21 33 19 33 17Z"
-          fill="#FF9EB5"
-          opacity="0.85"
+          d={f.mouth}
+          fill={f.mouthFill}
+          stroke={INK}
+          strokeWidth="1.15"
+          strokeLinejoin="round"
+        />
+      ) : (
+        <path
+          d={f.mouth}
+          fill="none"
+          stroke={isWarn ? '#D48806' : INK}
+          strokeWidth="1.45"
+          strokeLinecap="round"
         />
       )}
+
+      {/* 下巴通风口小点缀 */}
+      <circle cx="17.2" cy="32.2" r="0.55" fill="#7EC4FF" opacity="0.7" />
+      <circle cx="20" cy="32.2" r="0.55" fill="#7EC4FF" opacity="0.7" />
+      <circle cx="22.8" cy="32.2" r="0.55" fill="#7EC4FF" opacity="0.7" />
     </svg>
   );
 }

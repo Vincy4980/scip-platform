@@ -26,15 +26,26 @@ export function ProductThumb({
 }) {
   return (
     <div
-      className={`relative flex items-center justify-center overflow-hidden rounded-xl ${className}`}
+      className={`relative overflow-hidden rounded-xl bg-[#FAF8F6] ${className}`}
       style={{
-        background: `linear-gradient(145deg, hsl(${product.imageHue} 55% 92%), hsl(${(product.imageHue + 40) % 360} 45% 86%))`,
+        background: product.imageUrl
+          ? undefined
+          : `linear-gradient(145deg, hsl(${product.imageHue} 55% 92%), hsl(${(product.imageHue + 40) % 360} 45% 86%))`,
       }}
     >
-      <span className="text-3xl opacity-80" aria-hidden>
-        ⚗️
-      </span>
-      <span className="absolute bottom-2 right-2 rounded bg-white/80 px-1.5 py-0.5 text-[10px] text-[var(--mp-muted)]">
+      {product.imageUrl ? (
+        <img
+          src={product.imageUrl}
+          alt={product.productName}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <span className="absolute inset-0 flex items-center justify-center text-3xl opacity-80" aria-hidden>
+          ⚗️
+        </span>
+      )}
+      <span className="absolute bottom-2 right-2 rounded bg-white/85 px-1.5 py-0.5 text-[10px] text-[var(--mp-muted)] backdrop-blur-sm">
         {product.category}
       </span>
     </div>

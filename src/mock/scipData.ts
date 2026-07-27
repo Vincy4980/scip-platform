@@ -17,6 +17,8 @@ export interface MarketplaceProduct {
   sku: string;
   unitPrice: number; // 销售价（Marketplace 展示，非成本价）
   imageHue: number;
+  /** 产品展示图 */
+  imageUrl: string;
   specs: { label: string; value: string }[];
   usageNotes: string;
   applications: string[];
@@ -199,6 +201,35 @@ function buildSpec(_m: ChemMaterial, i: number) {
   ];
 }
 
+const PRODUCT_IMAGES: Record<string, string[]> = {
+  聚合物: [
+    '/marketplace/products/polymer-1.jpg',
+    '/marketplace/products/factory-1.jpg',
+    '/marketplace/products/warehouse-1.jpg',
+  ],
+  精细化学品: [
+    '/marketplace/products/lab-1.jpg',
+    '/marketplace/products/lab-2.jpg',
+    '/marketplace/products/pharma-1.jpg',
+    '/marketplace/products/lab-3.jpg',
+  ],
+  基础化学品: [
+    '/marketplace/products/factory-2.jpg',
+    '/marketplace/products/energy-1.jpg',
+    '/marketplace/products/warehouse-1.jpg',
+  ],
+  溶剂: [
+    '/marketplace/products/solvent-1.jpg',
+    '/marketplace/products/lab-4.jpg',
+    '/marketplace/products/lab-2.jpg',
+  ],
+};
+
+function productImageFor(category: string, index: number) {
+  const pool = PRODUCT_IMAGES[category] ?? PRODUCT_IMAGES['精细化学品']!;
+  return pool[index % pool.length]!;
+}
+
 /** 从 SCIP 成品物料主数据派生 Marketplace 产品目录 */
 export function syncProductsFromScip(): MarketplaceProduct[] {
   return chemMaterials
@@ -217,6 +248,7 @@ export function syncProductsFromScip(): MarketplaceProduct[] {
       // 销售价 = 成本价 * 加成（演示差异化：门户显示销售价）
       unitPrice: Math.round(m.unitPrice * 1000 * 1.18) / 1000,
       imageHue: (i * 37) % 360,
+      imageUrl: productImageFor(m.category, i),
       specs: buildSpec(m, i),
       usageNotes:
         '请按 SDS 要求储存于阴凉通风处；装卸遵守危化品操作规程；配伍前确认工艺兼容性。',

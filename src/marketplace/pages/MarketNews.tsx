@@ -30,12 +30,14 @@ export default function MarketNewsPage() {
               to={`/marketplace/market-news/${n.id}`}
               className="mp-card flex min-h-[120px] flex-col gap-2 p-4 transition hover:border-[#FFC9A0] sm:flex-row sm:items-center"
             >
-              <div
-                className="h-24 w-full shrink-0 rounded-xl sm:h-20 sm:w-28"
-                style={{
-                  background: `linear-gradient(145deg, hsl(${n.imageHue} 50% 88%), hsl(${(n.imageHue + 40) % 360} 42% 70%))`,
-                }}
-              />
+              <div className="h-24 w-full shrink-0 overflow-hidden rounded-xl sm:h-20 sm:w-28">
+                <img
+                  src={n.imageUrl}
+                  alt=""
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap gap-1.5">
                   <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${TAG_STYLE[n.tag]}`}>
@@ -62,17 +64,25 @@ export default function MarketNewsPage() {
             <Link
               key={ev.id}
               to={`/marketplace/events/${ev.id}`}
-              className="mp-card p-4 hover:border-[#FFC9A0]"
+              className="mp-card overflow-hidden hover:border-[#FFC9A0]"
             >
-              <span
-                className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${EVENT_STATUS_STYLE[ev.status]}`}
-              >
-                {ev.status}
-              </span>
-              <div className="mt-2 font-semibold text-sm">{ev.name}</div>
-              <p className="mt-1 text-xs text-[var(--mp-muted)]">
-                {ev.date} · {ev.location}
-              </p>
+              <img
+                src={ev.imageUrl}
+                alt=""
+                className="h-28 w-full object-cover"
+                loading="lazy"
+              />
+              <div className="p-4">
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${EVENT_STATUS_STYLE[ev.status]}`}
+                >
+                  {ev.status}
+                </span>
+                <div className="mt-2 font-semibold text-sm">{ev.name}</div>
+                <p className="mt-1 text-xs text-[var(--mp-muted)]">
+                  {ev.date} · {ev.location}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
@@ -105,12 +115,13 @@ export function MarketNewsDetailPage() {
         {' / '}
         <span className="text-[var(--mp-ink)]">详情</span>
       </nav>
-      <div
-        className="h-44 rounded-2xl"
-        style={{
-          background: `linear-gradient(145deg, hsl(${news.imageHue} 50% 88%), hsl(${(news.imageHue + 40) % 360} 42% 65%))`,
-        }}
-      />
+      <div className="h-48 overflow-hidden rounded-2xl">
+        <img
+          src={news.imageUrl}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      </div>
       <div className="flex flex-wrap gap-2">
         <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${TAG_STYLE[news.tag]}`}>
           {news.tag}
@@ -157,6 +168,9 @@ export function EventDetailPage() {
       >
         {ev.status}
       </span>
+      <div className="h-44 overflow-hidden rounded-2xl">
+        <img src={ev.imageUrl} alt="" className="h-full w-full object-cover" />
+      </div>
       <h1 className="text-2xl font-bold text-[var(--mp-ink)]">{ev.name}</h1>
       <div className="mp-card space-y-2 p-4 text-sm">
         <p>
