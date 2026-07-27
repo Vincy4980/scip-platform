@@ -2,8 +2,8 @@
 
 化工供应链智能控制塔 + 下游客户采购门户（SCIP Marketplace）的可演示产品原型。
 
-> 项目介绍：  
-> [Vincy4980/projects/scip-platform.md](https://github.com/Vincy4980/Vincy4980/blob/main/projects/scip-platform.md)
+> **作者：** 何欣桐（He Xintong）  
+> 项目介绍：[GitHub Profile · scip-platform](https://github.com/Vincy4980/Vincy4980/blob/main/projects/scip-platform.md)
 
 ## 快速开始
 
